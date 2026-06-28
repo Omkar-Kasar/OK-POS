@@ -55,6 +55,7 @@ export default function ReceiptPreview({
                   font-family: 'Courier New', Courier, monospace;
                   width: ${business.printerWidth === '58mm' ? '54mm' : '76mm'};
                   padding: 2mm;
+                  padding-bottom: 30mm;
                   margin: 0;
                   font-size: 10px;
                   color: #000;

@@ -607,10 +607,10 @@ export default function POSDashboard({
 
 
       {/* Main Content (Split screen for Desktop, single stack on Mobile) */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 overflow-y-auto px-2 pb-2 pt-0 space-y-2">
 
         {/* Restaurant Tables Grid (Page 1) */}
-        <div className="mb-6">
+        <div className="mb-2">
           <div className="flex justify-between items-center mb-3">
           </div>
 
@@ -620,7 +620,7 @@ export default function POSDashboard({
             </div>
           )}
 
-          <div ref={tableScrollRef} className="flex gap-3 overflow-x-auto pt-3 pb-3 px-1 no-scrollbar select-none">
+          <div ref={tableScrollRef} className="flex gap-3 overflow-x-auto pt-1 pb-1 px-1 no-scrollbar select-none">
             {tables.map(t => {
               const isSelected = selectedTable?.id === t.id;
               const isOccupied = t.status === 'occupied';
