@@ -1,0 +1,6 @@
+{
+  "name": "OK POS - Cloud Based Restaurant & Retail Billing Software",
+  "description": "A responsive, professional, cloud-based POS and restaurant/retail billing system with tables, real-time KOT preparation, receipts, multi-user roles, inventory, and comprehensive reporting.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

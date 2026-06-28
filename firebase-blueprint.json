@@ -1,0 +1,235 @@
+{
+  "entities": {
+    "Admin": {
+      "title": "Super Admin Account",
+      "description": "Secure account for super administration.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "password": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "password"]
+    },
+    "Business": {
+      "title": "Business Profiles",
+      "description": "Store information regarding a registered shop or restaurant.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "ownerName": { "type": "string" },
+        "mobile": { "type": "string" },
+        "address": { "type": "string" },
+        "gstNumber": { "type": "string" },
+        "invoiceFooter": { "type": "string" },
+        "terms": { "type": "string" },
+        "upiId": { "type": "string" },
+        "printerWidth": { "type": "string", "enum": ["58mm", "80mm"] },
+        "currency": { "type": "string" },
+        "timezone": { "type": "string" },
+        "taxPercent": { "type": "number" },
+        "subscriptionStatus": { "type": "string", "enum": ["active", "expired", "suspended"] },
+        "subscriptionStart": { "type": "string" },
+        "subscriptionExpiry": { "type": "string" },
+        "subscriptionPlan": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "name", "ownerName", "mobile", "address", "printerWidth", "taxPercent", "subscriptionStatus"]
+    },
+    "Category": {
+      "title": "Category Profiles",
+      "description": "Menu categories such as Fast Food, Chinese, Beverages, Desserts, etc.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "businessId": { "type": "string" }
+      },
+      "required": ["id", "name", "businessId"]
+    },
+    "Product": {
+      "title": "Product Profiles",
+      "description": "Product items with tracking status and veg/non-veg flag.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "categoryId": { "type": "string" },
+        "price": { "type": "number" },
+        "buyPrice": { "type": "number" },
+        "sku": { "type": "string" },
+        "unit": { "type": "string" },
+        "trackStock": { "type": "boolean" },
+        "stockQuantity": { "type": "number" },
+        "isVeg": { "type": "boolean" },
+        "image": { "type": "string" },
+        "businessId": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "name", "categoryId", "price", "buyPrice", "unit", "trackStock", "stockQuantity", "isVeg", "businessId"]
+    },
+    "Table": {
+      "title": "Restaurant Tables",
+      "description": "Table grids for restaurant or diner floor management.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "number": { "type": "number" },
+        "amount": { "type": "number" },
+        "status": { "type": "string", "enum": ["available", "occupied", "reserved"] },
+        "runningTime": { "type": "string" },
+        "activeOrderId": { "type": "string" }
+      },
+      "required": ["id", "number", "amount", "status"]
+    },
+    "Order": {
+      "title": "Sales Bills and Orders",
+      "description": "Sales records containing purchased cart items, discount calculation, and active kitchen status.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "billNo": { "type": "number" },
+        "date": { "type": "string" },
+        "tableId": { "type": "string" },
+        "tableName": { "type": "string" },
+        "subtotal": { "type": "number" },
+        "discountType": { "type": "string" },
+        "discountValue": { "type": "number" },
+        "taxAmount": { "type": "number" },
+        "grandTotal": { "type": "number" },
+        "paymentMode": { "type": "string", "enum": ["CASH", "UPI", "DUE"] },
+        "paymentStatus": { "type": "string" },
+        "customerName": { "type": "string" },
+        "customerPhone": { "type": "string" },
+        "status": { "type": "string", "enum": ["preparing", "ready", "served", "completed"] },
+        "businessId": { "type": "string" },
+        "staffId": { "type": "string" },
+        "staffName": { "type": "string" }
+      },
+      "required": ["id", "billNo", "date", "subtotal", "grandTotal", "paymentMode", "paymentStatus", "status", "businessId"]
+    },
+    "Expense": {
+      "title": "Expense Tracking",
+      "description": "Store operational expenses like utilities, rent, and inventory purchase cost.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "type": "string" },
+        "amount": { "type": "number" },
+        "date": { "type": "string" },
+        "description": { "type": "string" },
+        "businessId": { "type": "string" }
+      },
+      "required": ["id", "type", "amount", "date", "businessId"]
+    },
+    "Customer": {
+      "title": "Customers directory",
+      "description": "Registry of customers with credit records and loyalty points details.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "outstanding": { "type": "number" },
+        "loyaltyPoints": { "type": "number" },
+        "businessId": { "type": "string" },
+        "lastVisit": { "type": "string" }
+      },
+      "required": ["id", "name", "phone", "outstanding", "loyaltyPoints", "businessId"]
+    },
+    "Staff": {
+      "title": "Business Staff Profile",
+      "description": "Registered staff profiles like Manager, Waiter, Cashier, and Kitchen staff.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "pin": { "type": "string" },
+        "role": { "type": "string", "enum": ["Admin", "Manager", "Cashier", "Waiter", "Kitchen"] },
+        "phone": { "type": "string" },
+        "businessId": { "type": "string" }
+      },
+      "required": ["id", "name", "pin", "role", "phone", "businessId"]
+    },
+    "Attendance": {
+      "title": "Staff Attendance Logs",
+      "description": "Daily logging of check-ins and check-outs.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "staffId": { "type": "string" },
+        "staffName": { "type": "string" },
+        "date": { "type": "string" },
+        "checkIn": { "type": "string" },
+        "checkOut": { "type": "string" },
+        "status": { "type": "string" },
+        "businessId": { "type": "string" }
+      },
+      "required": ["id", "staffId", "staffName", "date", "checkIn", "status", "businessId"]
+    },
+    "ActivityLog": {
+      "title": "Audit Activity Logs",
+      "description": "Keep track of security relevant user events.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "role": { "type": "string" },
+        "action": { "type": "string" },
+        "details": { "type": "string" },
+        "deviceInfo": { "type": "string" },
+        "businessId": { "type": "string" }
+      },
+      "required": ["id", "timestamp", "userId", "userName", "role", "action", "details", "deviceInfo"]
+    }
+  },
+  "firestore": {
+    "/admins/{adminId}": {
+      "schema": "Admin",
+      "description": "Stores platform administrators"
+    },
+    "/businesses/{businessId}": {
+      "schema": "Business",
+      "description": "Stores registered businesses and subscriptions"
+    },
+    "/categories/{categoryId}": {
+      "schema": "Category",
+      "description": "Stores item menu categories"
+    },
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Stores registered stock items and menu catalog"
+    },
+    "/tables/{tableId}": {
+      "schema": "Table",
+      "description": "Stores restaurant physical and virtual tables"
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Stores sales order transactions"
+    },
+    "/expenses/{expenseId}": {
+      "schema": "Expense",
+      "description": "Stores corporate or restaurant expense vouchers"
+    },
+    "/customers/{customerId}": {
+      "schema": "Customer",
+      "description": "Stores registered customer details and loyalty scores"
+    },
+    "/staff/{staffId}": {
+      "schema": "Staff",
+      "description": "Stores registered employee profiles"
+    },
+    "/attendance/{attendanceId}": {
+      "schema": "Attendance",
+      "description": "Stores employee shifts and attendance entries"
+    },
+    "/activity_logs/{logId}": {
+      "schema": "ActivityLog",
+      "description": "Stores audit tracks and telemetry of logins and actions"
+    }
+  }
+}

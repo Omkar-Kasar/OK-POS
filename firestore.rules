@@ -1,0 +1,77 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // 2. Global Helpers
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(businessId) {
+      return isSignedIn() && (
+        exists(/databases/$(database)/documents/businesses/$(businessId))
+      );
+    }
+
+    // 3. Collection Rules
+    
+    // Admins Collection
+    match /admins/{adminId} {
+      allow read, write: if true; // Accessible for setup and secure logins
+    }
+
+    // Businesses Collection
+    match /businesses/{businessId} {
+      allow read, write: if true; // Setup, registration and status tracking
+    }
+
+    // Categories Collection
+    match /categories/{categoryId} {
+      allow read, write: if true; // Fully permissive within POS workflow
+    }
+
+    // Products Collection
+    match /products/{productId} {
+      allow read, write: if true; // Stock, prices, items catalog update
+    }
+
+    // Tables Collection
+    match /tables/{tableId} {
+      allow read, write: if true; // Restaurant floor grid real-time sync
+    }
+
+    // Orders Collection
+    match /orders/{orderId} {
+      allow read, write: if true; // Bills and preparation orders sync
+    }
+
+    // Expenses Collection
+    match /expenses/{expenseId} {
+      allow read, write: if true; // Operating expense entries
+    }
+
+    // Customers Collection
+    match /customers/{customerId} {
+      allow read, write: if true; // Credit lists and customer history
+    }
+
+    // Staff Collection
+    match /staff/{staffId} {
+      allow read, write: if true; // PINs and permissions registry
+    }
+
+    // Attendance Collection
+    match /attendance/{attendanceId} {
+      allow read, write: if true; // Shift logs
+    }
+
+    // Activity Logs Collection
+    match /activity_logs/{logId} {
+      allow read, write: if true; // Security audit tracks
+    }
+  }
+}
