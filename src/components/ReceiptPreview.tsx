@@ -8,11 +8,10 @@ import {
   X, 
   Printer, 
   Share2, 
-  CheckCircle, 
-  FileText, 
-  QrCode 
+  FileText 
 } from 'lucide-react';
 import { Business, Order } from '../types';
+import { PrinterService, PrinterSettings } from '../services/printer';
 
 interface ReceiptPreviewProps {
   business: Business;
@@ -29,66 +28,15 @@ export default function ReceiptPreview({
 }: ReceiptPreviewProps) {
   const receiptRef = useRef<HTMLDivElement>(null);
 
-  const handlePrint = () => {
-    console.log('Printing receipt...');
-    // Standard window print behavior
-    const printContent = receiptRef.current?.innerHTML;
-    const originalContent = document.body.innerHTML;
-    
-    // Open print view styled specifically for thermal widths
-    const iframe = document.createElement('iframe');
-    iframe.style.position = 'absolute';
-    iframe.style.width = '0px';
-    iframe.style.height = '0px';
-    iframe.style.border = 'none';
-    document.body.appendChild(iframe);
-    
-    const doc = iframe.contentWindow?.document;
-    if (doc) {
-      doc.open();
-      doc.write(`
-        <html>
-          <head>
-            <style>
-              @media print {
-                body {
-                  font-family: 'Courier New', Courier, monospace;
-                  width: ${business.printerWidth === '58mm' ? '54mm' : '76mm'};
-                  padding: 2mm;
-                  padding-bottom: 30mm;
-                  margin: 0;
-                  font-size: 10px;
-                  color: #000;
-                }
-                .print-hidden { display: none !important; }
-                .text-center { text-align: center; }
-                .text-right { text-align: right; }
-                .border-dashed { border-top: 1px dashed #000; margin: 4px 0; }
-                .flex { display: flex; }
-                .justify-between { justify-content: space-between; }
-                .item-row { margin: 2px 0; }
-                .bold { font-weight: bold; }
-                .qr-container { text-align: center; margin: 8px 0; }
-                /* Hide UI elements from print */
-                .print-hidden, button { display: none !important; }
-              }
-            </style>
-          </head>
-          <body>
-            ${printContent}
-          </body>
-        </html>
-      `);
-      doc.close();
-      iframe.contentWindow?.focus();
-      iframe.contentWindow?.print();
-      
-      // Cleanup
-      setTimeout(() => {
-        document.body.removeChild(iframe);
-        console.log('Print action initiated, triggering onPrintComplete');
-        if (onPrintComplete) onPrintComplete();
-      }, 1000);
+  const handlePrint = async () => {
+    // Default settings - should ideally be loaded from business settings in Firebase
+    const settings: PrinterSettings = {
+      printerMode: 'BROWSER',
+      paperWidth: business.printerWidth === '58mm' ? '58mm' : '80mm'
+    };
+
+    if (onPrintComplete) {
+        await PrinterService.printReceipt(order, business, settings, onPrintComplete);
     }
   };
 
